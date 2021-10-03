@@ -22,7 +22,7 @@ public class DeviceSensor implements Device {
     @Column(name = "type")
     private String type;
     @Column(name = "meaning")
-    private float meaning;
+    private double meaning;
     @Column(name = "updated_at")
     @UpdateTimestamp
     private LocalDateTime updated_at;
@@ -47,5 +47,10 @@ public class DeviceSensor implements Device {
     @Override
     public void setType(String type) {
         this.type=type;
+    }
+
+    @Override
+    public double getValue() {
+        return meaning;
     }
 }

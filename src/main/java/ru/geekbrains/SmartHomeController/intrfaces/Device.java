@@ -5,4 +5,5 @@ public interface Device {
     void setName(String name);
     String getType();
     void setType(String type);
+    double getValue();
 }

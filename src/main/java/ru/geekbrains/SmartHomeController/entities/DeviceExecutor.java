@@ -49,4 +49,12 @@ public class DeviceExecutor implements Device {
     public void setType(String type) {
         this.type = type;
     }
+
+    @Override
+    public double getValue() {
+        if(status){
+            return 1.0d;
+        }
+        return 0.0d;
+    }
 }
