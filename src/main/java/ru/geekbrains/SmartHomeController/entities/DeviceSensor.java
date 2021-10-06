@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.UpdateTimestamp;
 import ru.geekbrains.SmartHomeController.intrfaces.Device;
+import ru.geekbrains.SmartHomeController.models.ObservableSubject;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 @Table(name = "devices_sensor")
 @Data
 @NoArgsConstructor
-public class DeviceSensor implements Device {
+public class DeviceSensor extends ObservableSubject implements Device {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -52,5 +53,10 @@ public class DeviceSensor implements Device {
     @Override
     public double getValue() {
         return meaning;
+    }
+
+    public void changeMeaning(double meaning){
+        this.meaning=meaning;
+        notify(meaning);
     }
 }
