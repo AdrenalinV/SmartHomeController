@@ -1,40 +1,22 @@
 package ru.geekbrains.SmartHomeController.entities;
 
 import lombok.Data;
-import lombok.Generated;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.UpdateTimestamp;
 import ru.geekbrains.SmartHomeController.intrfaces.Device;
 import ru.geekbrains.SmartHomeController.intrfaces.Observer;
 import ru.geekbrains.SmartHomeController.models.ObservableSubject;
 
-import javax.persistence.*;
-import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "devices_executor")
 @Data
 @NoArgsConstructor
 public class DeviceExecutor implements Device, Observer {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
-    @Column(name = "name")
     private String name;
-    @Column(name = "type")
     private String type;
-    @Column(name = "status")
-    private boolean status;
-    @Column(name = "min")
-    private double min;
-    @Column(name = "max")
-    private double max;
-    @Column(name = "updated_at")
-    @UpdateTimestamp
-    private LocalDateTime updated_at;
-    @ManyToOne
-    private Room room;
+    private int status;
+    private double minValue;
+    private double maxValue;
+    private Long room_id;
 
     @Override
     public String getName() {
@@ -58,19 +40,16 @@ public class DeviceExecutor implements Device, Observer {
 
     @Override
     public double getValue() {
-        if (status) {
-            return 1.0d;
-        }
-        return 0.0d;
+        return status;
     }
 
     @Override
     public void update(ObservableSubject subject, Object arg) {
         double current = Double.parseDouble(arg.toString());
-        if (current <= min) {
-            status = true;
-        } else if (current >= max) {
-            status = false;
+        if (current <= minValue) {
+            status = 1;
+        } else if (current >= maxValue) {
+            status = 0;
         }
     }
 }
