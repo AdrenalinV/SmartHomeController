@@ -7,33 +7,42 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class DeviceExecutorMapper {
     private final Connection con;
+    private Map<Long,DeviceExecutor> identityMap= new HashMap<>();
+
 
     public DeviceExecutorMapper() throws SQLException {
         this.con= DataSource.getConnection();
     }
 
     public DeviceExecutor findById(Long id) throws SQLException, IllegalArgumentException {
-        PreparedStatement statement = con.prepareStatement(
-                "SELECT id, name, type, status, minValue, maxValue, room_id FROM devices_executor WHERE id=?"
-        );
-        statement.setLong(1, id);
-        try (ResultSet rs = statement.executeQuery()) {
-            while (rs.next()) {
-                DeviceExecutor de = new DeviceExecutor();
-                de.setId(rs.getLong(1));
-                de.setName(rs.getString(2));
-                de.setType(rs.getString(3));
-                de.setStatus(rs.getInt(4));
-                de.setMinValue(rs.getDouble(5));
-                de.setMaxValue(rs.getDouble(6));
-                de.setRoom_id(rs.getLong(7));
-                return de;
+        DeviceExecutor de = identityMap.get(id);
+        if(de==null){
+            PreparedStatement statement = con.prepareStatement(
+                    "SELECT id, name, type, status, minValue, maxValue, room_id FROM devices_executor WHERE id=?"
+            );
+            statement.setLong(1, id);
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    de = new DeviceExecutor();
+                    de.setId(rs.getLong(1));
+                    de.setName(rs.getString(2));
+                    de.setType(rs.getString(3));
+                    de.setStatus(rs.getInt(4));
+                    de.setMinValue(rs.getDouble(5));
+                    de.setMaxValue(rs.getDouble(6));
+                    de.setRoom_id(rs.getLong(7));
+                    identityMap.put(de.getId(),de);
+                    return de;
+                }
             }
-        }
-        throw new IllegalArgumentException(String.valueOf(id));
+            throw new IllegalArgumentException(String.valueOf(id));
+        }else return de;
     }
 
     public void insert(DeviceExecutor de) throws SQLException, IllegalArgumentException {
@@ -61,6 +70,7 @@ public class DeviceExecutorMapper {
         statement.setDouble(2, de.getMinValue());
         statement.setDouble(3, de.getMaxValue());
         statement.executeUpdate();
+        identityMap.put(de.getId(),de);
     }
 
     public void delete(DeviceExecutor de) throws SQLException {
@@ -69,6 +79,7 @@ public class DeviceExecutorMapper {
         );
         statement.setLong(1,de.getId());
         statement.executeUpdate();
+        identityMap.remove(de.getId());
     }
 
     private Long getID(DeviceExecutor de) throws SQLException, IllegalArgumentException {

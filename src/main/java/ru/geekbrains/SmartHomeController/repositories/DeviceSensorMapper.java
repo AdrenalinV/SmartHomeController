@@ -7,34 +7,41 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DeviceSensorMapper {
     private final Connection con;
+    private Map<Long, DeviceSensor> identityMap= new HashMap<>();
 
     public DeviceSensorMapper() throws SQLException {
         this.con = DataSource.getConnection();
     }
 
     public DeviceSensor findById(Long id) throws SQLException, IllegalArgumentException {
-        PreparedStatement statement = con.prepareStatement(
-                "SELECT ds.id, ds.name, ds.type, m.meaning, ds.room_id FROM devices_sensor as ds " +
-                        "JOIN meanings as m ON m.sensor_id=ds.id " +
-                        "WHERE m.created_at=(SELECT max(created_at) FROM meanings WHERE sensor_id=?) AND ds.id=?"
-        );
-        statement.setLong(1, id);
-        statement.setLong(2, id);
-        try (ResultSet rs = statement.executeQuery()) {
-            while (rs.next()) {
-                DeviceSensor ds = new DeviceSensor();
-                ds.setId(rs.getLong(1));
-                ds.setName(rs.getString(2));
-                ds.setType(rs.getString(3));
-                ds.setMeaning(rs.getDouble(4));
-                ds.setRoom_id(rs.getLong(5));
-                return ds;
+        DeviceSensor ds = identityMap.get(id);
+        if(ds==null){
+            PreparedStatement statement = con.prepareStatement(
+                    "SELECT ds.id, ds.name, ds.type, m.meaning, ds.room_id FROM devices_sensor as ds " +
+                            "JOIN meanings as m ON m.sensor_id=ds.id " +
+                            "WHERE m.created_at=(SELECT max(created_at) FROM meanings WHERE sensor_id=?) AND ds.id=?"
+            );
+            statement.setLong(1, id);
+            statement.setLong(2, id);
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    ds = new DeviceSensor();
+                    ds.setId(rs.getLong(1));
+                    ds.setName(rs.getString(2));
+                    ds.setType(rs.getString(3));
+                    ds.setMeaning(rs.getDouble(4));
+                    ds.setRoom_id(rs.getLong(5));
+                    identityMap.put(ds.getId(),ds);
+                    return ds;
+                }
             }
-        }
-        throw new IllegalArgumentException(String.valueOf(id));
+            throw new IllegalArgumentException(String.valueOf(id));
+        }else return ds;
     }
 
     public void insert(DeviceSensor ds) throws SQLException, IllegalArgumentException {
@@ -57,6 +64,7 @@ public class DeviceSensorMapper {
         statement.setLong(1, id);
         statement.setDouble(2, ds.getMeaning());
         statement.executeUpdate();
+        identityMap.put(ds.getId(),ds);
     }
 
     public void delete(DeviceSensor ds) throws SQLException {
@@ -70,6 +78,7 @@ public class DeviceSensorMapper {
         statement_m.executeUpdate();
         statement_ds.setLong(1,ds.getId());
         statement_ds.executeUpdate();
+        identityMap.remove(ds.getId());
     }
 
     private Long getID(DeviceSensor ds) throws SQLException, IllegalArgumentException {
