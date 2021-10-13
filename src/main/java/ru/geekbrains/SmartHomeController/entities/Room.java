@@ -1,30 +1,22 @@
 package ru.geekbrains.SmartHomeController.entities;
 
 import lombok.Data;
+import ru.geekbrains.SmartHomeController.entities.DeviceSensor;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
-@Entity
-@Table(name = "rooms")
 @Data
-public class Room {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+public class Room {
     private Long id;
-    @Column(name = "name")
     private String name;
-    @OneToMany(mappedBy = "room")
-    private Collection<DeviceExecutor> devicesExecutor;
-    @OneToMany(mappedBy = "room")
     private Collection<DeviceSensor> deviceSensors;
+    private Collection<DeviceExecutor> deviceExecutors;
+
 
     public Room() {
-        devicesExecutor = new ArrayList<>();
         deviceSensors = new ArrayList<>();
+        deviceExecutors = new ArrayList<>();
     }
-
 }
