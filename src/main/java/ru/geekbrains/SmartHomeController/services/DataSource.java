@@ -1,9 +1,9 @@
 package ru.geekbrains.SmartHomeController.services;
 
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-
 public class DataSource {
     private static final String URL="jdbc:h2:file:./database;MODE=PostgreSQL";
 

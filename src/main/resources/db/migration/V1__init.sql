@@ -1,6 +1,6 @@
 CREATE TABLE rooms (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(40)
+    name VARCHAR(40) UNIQUE
     );
 
 CREATE TABLE devices_executor (
@@ -34,12 +34,15 @@ INSERT INTO rooms (name) VALUES
 
 INSERT INTO devices_sensor (name,type,room_id) VALUES
 ('sensor_1','termometr',1),
-('sensor_2','termometr',2);
+('sensor_2','termometr',2),
+('sensor_3','hygrometer',2);
 
 INSERT INTO devices_executor (name,type,room_id) VALUES
-('heater','heater',2);
+('heater','heater',2),
+('searchlight','simple',2);
 
 
 INSERT INTO meanings(sensor_id,meaning) VALUES
 (1,22),
-(2,0.5);
+(2,0.5),
+(3,40);

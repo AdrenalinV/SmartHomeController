@@ -1,5 +1,6 @@
 package ru.geekbrains.SmartHomeController.repositories;
 
+import org.springframework.stereotype.Repository;
 import ru.geekbrains.SmartHomeController.entities.DeviceSensor;
 import ru.geekbrains.SmartHomeController.services.DataSource;
 
@@ -9,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
-
+@Repository
 public class DeviceSensorMapper {
     private final Connection con;
     private Map<Long, DeviceSensor> identityMap= new HashMap<>();

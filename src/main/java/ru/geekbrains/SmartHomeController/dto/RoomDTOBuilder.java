@@ -1,5 +1,10 @@
 package ru.geekbrains.SmartHomeController.dto;
 
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+
+@Component
 public class RoomDTOBuilder {
     private final RoomDTO roomDTO;
 
@@ -12,13 +17,13 @@ public class RoomDTOBuilder {
         return this;
     }
 
-    public RoomDTOBuilder addDSensorDTO(DeviceSensorDTO deviceSensorDTO){
-        roomDTO.getDeviceSensorsDTO().add(deviceSensorDTO);
+    public RoomDTOBuilder addDSensorDTO(List<DeviceSensorDTO> deviceSensorsDTO){
+        roomDTO.setDeviceSensorsDTO(deviceSensorsDTO);
         return this;
     }
 
-    public RoomDTOBuilder addDExecutorDTO(DeviceExecutorDTO deviceExecutorDTO){
-        roomDTO.getDevicesExecutorDTO().add(deviceExecutorDTO);
+    public RoomDTOBuilder addDExecutorDTO(List<DeviceExecutorDTO> deviceExecutorsDTO){
+        roomDTO.setDevicesExecutorDTO(deviceExecutorsDTO);
         return this;
     }
     public RoomDTO build(){

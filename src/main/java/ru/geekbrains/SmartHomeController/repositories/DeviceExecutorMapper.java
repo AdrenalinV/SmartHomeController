@@ -1,5 +1,6 @@
 package ru.geekbrains.SmartHomeController.repositories;
 
+import org.springframework.stereotype.Repository;
 import ru.geekbrains.SmartHomeController.entities.DeviceExecutor;
 import ru.geekbrains.SmartHomeController.services.DataSource;
 
@@ -10,7 +11,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-
+@Repository
 public class DeviceExecutorMapper {
     private final Connection con;
     private Map<Long,DeviceExecutor> identityMap= new HashMap<>();
