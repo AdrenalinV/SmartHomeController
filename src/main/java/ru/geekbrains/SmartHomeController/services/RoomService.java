@@ -2,7 +2,6 @@ package ru.geekbrains.SmartHomeController.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.geekbrains.SmartHomeController.dto.RoomDTOBuilder;
 import ru.geekbrains.SmartHomeController.entities.Room;
 import ru.geekbrains.SmartHomeController.repositories.RoomMapper;
 
@@ -13,8 +12,6 @@ import java.util.List;
 public class RoomService {
     @Autowired
     private RoomMapper roomMapper;
-    @Autowired
-    private RoomDTOBuilder roomDTOBuilder;
 
     public Room findRoomByID(Long id) throws SQLException {
         return roomMapper.findById(id);

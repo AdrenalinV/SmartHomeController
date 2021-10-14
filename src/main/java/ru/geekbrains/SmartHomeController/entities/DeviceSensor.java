@@ -2,29 +2,18 @@ package ru.geekbrains.SmartHomeController.entities;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.UpdateTimestamp;
+
 import ru.geekbrains.SmartHomeController.intrfaces.Device;
 import ru.geekbrains.SmartHomeController.models.ObservableSubject;
 
-import javax.persistence.*;
-import java.time.LocalDateTime;
-
-//@Entity
-//@Table(name = "devices_sensor")
 @Data
 @NoArgsConstructor
 public class DeviceSensor extends ObservableSubject implements Device {
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(name = "id")
+
     private Long id;
-//    @Column(name = "name")
     private String name;
-//    @Column(name = "type")
     private String type;
-//    @Column(name = "meaning")
     private double meaning;
-//    @ManyToOne
     private Long room_id;
 
     @Override

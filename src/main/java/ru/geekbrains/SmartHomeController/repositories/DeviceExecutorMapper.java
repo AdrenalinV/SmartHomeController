@@ -4,11 +4,10 @@ import org.springframework.stereotype.Repository;
 import ru.geekbrains.SmartHomeController.entities.DeviceExecutor;
 import ru.geekbrains.SmartHomeController.services.DataSource;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Repository
@@ -46,16 +45,34 @@ public class DeviceExecutorMapper {
         }else return de;
     }
 
+    public List<DeviceExecutor> getFreeExecutors() throws SQLException {
+        List<DeviceExecutor> executors = new ArrayList();
+        Statement statement = con.createStatement();
+        try (ResultSet rs = statement.executeQuery("SELECT id,name,type,status,room_id FROM devices_executor WHERE room_id=-1")) {
+            while (rs.next()) {
+                DeviceExecutor de = new DeviceExecutor();
+                de.setId(rs.getLong(1));
+                de.setName(rs.getString(2));
+                de.setType(rs.getString(3));
+                de.setStatus(rs.getInt(4));
+                de.setRoom_id(rs.getLong(5));
+                executors.add(de);
+            }
+        }
+        return executors;
+    }
+
     public void insert(DeviceExecutor de) throws SQLException, IllegalArgumentException {
         PreparedStatement statement = con.prepareStatement(
-                "INSERT INTO devices_executor (name, type, status, minValue, maxValue, room_id) VALUES (?, ?, ?, ?, ?, ?)"
+                "INSERT INTO devices_executor (id, name, type, status, minValue, maxValue, room_id) VALUES (?, ?, ?, ?, ?, ?, ?)"
         );
-        statement.setString(1, de.getName());
-        statement.setString(2, de.getType());
-        statement.setInt(3, de.getStatus());
-        statement.setDouble(4, de.getMinValue());
-        statement.setDouble(5, de.getMaxValue());
-        statement.setLong(6, de.getRoom_id());
+        statement.setLong(1, de.getId());
+        statement.setString(2, de.getName());
+        statement.setString(3, de.getType());
+        statement.setInt(4, de.getStatus());
+        statement.setDouble(5, de.getMinValue());
+        statement.setDouble(6, de.getMaxValue());
+        statement.setLong(7, de.getRoom_id());
         statement.executeUpdate();
 
 
@@ -66,10 +83,10 @@ public class DeviceExecutorMapper {
                 "UPDATE devices_executor SET status=?,minValue=?,maxValue=? WHERE id=?"
         );
         Long id = (de.getId() != null) ? de.getId() : getID(de);
-        statement.setLong(4, id);
         statement.setInt(1, de.getStatus());
         statement.setDouble(2, de.getMinValue());
         statement.setDouble(3, de.getMaxValue());
+        statement.setLong(4, id);
         statement.executeUpdate();
         identityMap.put(de.getId(),de);
     }

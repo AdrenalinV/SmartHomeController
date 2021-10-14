@@ -12,8 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/rooms")
-@RequiredArgsConstructor
-public class SmartHomeController {
+public class RoomController {
     @Autowired
     private RoomService roomService;
     @GetMapping()

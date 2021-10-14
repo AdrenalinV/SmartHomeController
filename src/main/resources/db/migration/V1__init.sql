@@ -4,21 +4,19 @@ CREATE TABLE rooms (
     );
 
 CREATE TABLE devices_executor (
-        id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        id INT NOT NULL PRIMARY KEY,
         name VARCHAR(40),
         type VARCHAR(10),
         status INT DEFAULT 0,
         minValue double DEFAULT 0,
         maxValue double DEFAULT 0,
-        room_id INT NOT NULL,
-        FOREIGN KEY (room_id) REFERENCES rooms (id));
+        room_id INT DEFAULT -1);
 
 CREATE TABLE devices_sensor(
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id INT NOT NULL PRIMARY KEY,
     name VARCHAR(40),
     type VARCHAR(10),
-    room_id INT NOT NULL,
-FOREIGN KEY (room_id) REFERENCES rooms (id));
+    room_id INT DEFAULT -1);
 
 CREATE TABLE meanings(
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -32,17 +30,17 @@ INSERT INTO rooms (name) VALUES
 ('room_1'),
 ('out');
 
-INSERT INTO devices_sensor (name,type,room_id) VALUES
-('sensor_1','termometr',1),
-('sensor_2','termometr',2),
-('sensor_3','hygrometer',2);
+INSERT INTO devices_sensor (id,name,type,room_id) VALUES
+(00002,'sensor_1','termometr',1),
+(00001,'sensor_2','termometr',2),
+(00003,'sensor_3','hygrometer',2);
 
-INSERT INTO devices_executor (name,type,room_id) VALUES
-('heater','heater',2),
-('searchlight','simple',2);
+INSERT INTO devices_executor (id,name,type,room_id) VALUES
+(00001, 'heater','heater',2),
+(00002, 'searchlight','simple',2);
 
 
 INSERT INTO meanings(sensor_id,meaning) VALUES
-(1,22),
-(2,0.5),
-(3,40);
+(00001,22),
+(00002,0.5),
+(00003,40);
