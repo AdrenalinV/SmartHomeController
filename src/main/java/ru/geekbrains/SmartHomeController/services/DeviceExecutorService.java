@@ -17,7 +17,7 @@ public class DeviceExecutorService {
     public List<DeviceExecutor> getFreeExecutor() {
         List<DeviceExecutor> executors = null;
         try {
-            executors = deviceExecutorMapper.getFreeExecutors();
+            executors = deviceExecutorMapper.getExecutorsByRoom_ID(-1L);
         } catch (SQLException e) {
             e.printStackTrace();
         }

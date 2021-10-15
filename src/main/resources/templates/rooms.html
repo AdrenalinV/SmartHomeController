@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <meta http-equiv="Content-Type" content="text/html" ; charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Info room</h1>
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">id</th>
+            <th scope="col">name</th>
+            <th scope="col">devise</th>
+        </tr>
+    </thead>
+    <tbody>
+    <tr scope="row">
+        <td th:text="${room.id}"></td>
+        <td th:text="${room.name}"></td>
+        <td>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>id</th>
+                    <th>type</th>
+                    <th>value</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each = "ds : ${room.deviceSensors}">
+                    <td th:text="${ds.id}"></td>
+                    <td th:text="${ds.type}"></td>
+                    <td th:text="${ds.meaning}"></td>
+                </tr>
+                </tbody>
+            </table>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>id</th>
+                    <th>type</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each = "de : ${room.deviceExecutors}">
+                    <td th:text="${de.id}"></td>
+                    <td th:text="${de.type}"></td>
+                    <td th:text="${de.status}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+    </tbody>
+
+</table>
+</body>
+</html>

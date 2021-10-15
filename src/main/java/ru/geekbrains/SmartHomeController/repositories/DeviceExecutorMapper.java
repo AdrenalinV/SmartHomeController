@@ -45,10 +45,13 @@ public class DeviceExecutorMapper {
         }else return de;
     }
 
-    public List<DeviceExecutor> getFreeExecutors() throws SQLException {
+    public List<DeviceExecutor> getExecutorsByRoom_ID(Long id) throws SQLException {
         List<DeviceExecutor> executors = new ArrayList();
-        Statement statement = con.createStatement();
-        try (ResultSet rs = statement.executeQuery("SELECT id,name,type,status,room_id FROM devices_executor WHERE room_id=-1")) {
+        PreparedStatement statement=con.prepareStatement(
+                "SELECT id,name,type,status,room_id FROM devices_executor WHERE room_id=?"
+        );
+        statement.setLong(1,id);
+        try (ResultSet rs = statement.executeQuery()) {
             while (rs.next()) {
                 DeviceExecutor de = new DeviceExecutor();
                 de.setId(rs.getLong(1));

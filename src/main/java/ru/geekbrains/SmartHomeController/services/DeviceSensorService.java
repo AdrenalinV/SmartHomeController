@@ -17,7 +17,7 @@ public class DeviceSensorService {
     public List<DeviceSensor> getFreeSensor() {
         List<DeviceSensor> sensors = null;
         try {
-            sensors = deviceSensorMapper.getFreeSensors();
+            sensors = deviceSensorMapper.getSensorsByRoom_ID(-1L);
         } catch (SQLException e) {
             e.printStackTrace();
         }

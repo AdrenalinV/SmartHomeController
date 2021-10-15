@@ -19,12 +19,15 @@ public class DeviceSensorMapper {
         this.con = DataSource.getConnection();
     }
 
-    public List<DeviceSensor> getFreeSensors() throws SQLException {
+    public List<DeviceSensor> getSensorsByRoom_ID(Long room_id) throws SQLException {
         List<DeviceSensor> sensors = new ArrayList();
-        Statement statement = con.createStatement();
-        try (ResultSet rs = statement.executeQuery("SELECT ds.id, ds.name, ds.type, m.meaning, ds.room_id FROM devices_sensor as ds " +
-                "JOIN meanings as m ON m.sensor_id=ds.id " +
-                "WHERE m.created_at IN (SELECT max(created_at) FROM meanings group by sensor_id) AND ds.room_id=-1")) {
+        PreparedStatement statement = con.prepareStatement(
+                "SELECT ds.id, ds.name, ds.type, m.meaning, ds.room_id FROM devices_sensor as ds " +
+                        "JOIN meanings as m ON m.sensor_id=ds.id " +
+                        "WHERE m.created_at IN (SELECT max(created_at) FROM meanings group by sensor_id) AND ds.room_id=?"
+        );
+        statement.setLong(1, room_id);
+        try (ResultSet rs = statement.executeQuery()) {
             while (rs.next()) {
                 DeviceSensor ds = new DeviceSensor();
                 ds.setId(rs.getLong(1));

@@ -1,6 +1,7 @@
 package ru.geekbrains.SmartHomeController.repositories;
 
 import org.springframework.stereotype.Repository;
+import ru.geekbrains.SmartHomeController.entities.DeviceExecutor;
 import ru.geekbrains.SmartHomeController.entities.DeviceSensor;
 import ru.geekbrains.SmartHomeController.entities.Room;
 import ru.geekbrains.SmartHomeController.services.DataSource;
@@ -48,31 +49,14 @@ public class RoomMapper {
             PreparedStatement statement = con.prepareStatement(
                     "SELECT r.id, r.name FROM ROOMS as r WHERE r.id=?"
             );
-            PreparedStatement statement_ds = con.prepareStatement(
-                    "SELECT id FROM devices_sensor WHERE room_id=?"
-            );
-            PreparedStatement statement_de = con.prepareStatement(
-                    "SELECT id FROM devices_executor WHERE room_id=?"
-            );
             statement.setLong(1, id);
             room = new Room();
             try (ResultSet rs = statement.executeQuery()) {
                 while (rs.next()) {
                     room.setId(rs.getLong(1));
                     room.setName(rs.getString(2));
-
-                }
-            }
-            statement_ds.setLong(1, room.getId());
-            try (ResultSet rs = statement_ds.executeQuery()) {
-                while (rs.next()) {
-                    room.getDeviceSensors().add(Registry.getInstance().getDeviceSensorMapper().findById(rs.getLong(1)));
-                }
-            }
-            statement_de.setLong(1, room.getId());
-            try (ResultSet rs = statement_de.executeQuery()) {
-                while (rs.next()) {
-                    room.getDeviceExecutors().add(Registry.getInstance().getDeviceExecutorMapper().findById(rs.getLong(1)));
+                    room.setDeviceSensors(Registry.getInstance().getDeviceSensorMapper().getSensorsByRoom_ID(room.getId()));
+                    room.setDeviceExecutors(Registry.getInstance().getDeviceExecutorMapper().getExecutorsByRoom_ID(room.getId()));
                 }
             }
             identityMap.put(room.getId(), room);

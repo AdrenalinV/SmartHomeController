@@ -18,42 +18,33 @@ public class RoomController {
 
     @GetMapping()
     public List<Room> getRooms() {
-        try {
-            List<Room> rooms = roomService.getRoomAll();
-            return rooms;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
+
+        List<Room> rooms = roomService.getRoomAll();
+        return rooms;
+
     }
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public Long createRoom(@RequestBody Room room) {
-        try {
-            return roomService.addRoom(room);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return -1L;
+
+        return roomService.addRoom(room);
+
+
     }
 
     @PutMapping()
     public void updateRoom(Room room) {
-        try {
-            roomService.updateRoom(room);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
+        roomService.updateRoom(room);
+
     }
 
     @DeleteMapping("/{id}")
     public void deleteRoomByID(@PathVariable Long id) {
-        try {
-            roomService.deleteRoom(id);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
+        roomService.deleteRoom(id);
+
     }
 
 

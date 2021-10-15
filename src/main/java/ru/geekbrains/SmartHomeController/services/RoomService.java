@@ -13,26 +13,47 @@ public class RoomService {
     @Autowired
     private RoomMapper roomMapper;
 
-    public Room findRoomByID(Long id) throws SQLException {
-        return roomMapper.findById(id);
+    public Room findRoomByID(Long id) {
+        try {
+            return roomMapper.findById(id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }return null;
     }
 
-    public Long addRoom(Room room) throws SQLException {
-        roomMapper.insert(room);
-        return roomMapper.getIdByName(room.getName());
+    public Long addRoom(Room room) {
+        try {
+            roomMapper.insert(room);
+            return roomMapper.getIdByName(room.getName());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }return -1L;
     }
 
-    public void deleteRoom(Long id) throws SQLException {
+    public void deleteRoom(Long id){
         Room room=findRoomByID(id);
-        roomMapper.delete(room);
+        try {
+            roomMapper.delete(room);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void updateRoom(Room room) throws SQLException {
-        roomMapper.update(room);
+    public void updateRoom(Room room){
+        try {
+            roomMapper.update(room);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    public List<Room> getRoomAll() throws SQLException {
-        return roomMapper.getRooms();
+    public List<Room> getRoomAll() {
+        List<Room> rooms = null;
+        try {
+             rooms=roomMapper.getRooms();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }return rooms;
     }
 
 }

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <meta http-equiv="Content-Type" content="text/html" ; charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>rooms</h1>
+<table class="table">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">id</th>
+        <th scope="col">name</th>
+        <th scope="col">details</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr scope="row" th:each="room : ${rooms}">
+        <td th:text="${room.id}"></td>
+        <td th:text="${room.name}"></td>
+        <td><a href = "/rooms" th:href="@{/rooms(id=${room.id})}">info</a></td>
+    </tr>
+    </tbody>
+
+</table>
+</body>
+</html>
