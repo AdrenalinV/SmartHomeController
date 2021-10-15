@@ -8,25 +8,26 @@ import java.util.List;
 public class RoomDTOBuilder {
     private final RoomDTO roomDTO;
 
-    public RoomDTOBuilder(){
-        roomDTO=new RoomDTO();
+    public RoomDTOBuilder() {
+        roomDTO = new RoomDTO();
     }
 
-    public RoomDTOBuilder name(String name){
+    public RoomDTOBuilder name(String name) {
         roomDTO.setName(name);
         return this;
     }
 
-    public RoomDTOBuilder addDSensorDTO(List<DeviceSensorDTO> deviceSensorsDTO){
-        roomDTO.setDeviceSensorsDTO(deviceSensorsDTO);
+    public RoomDTOBuilder addDSensorDTO(List<DeviceSensorDTO> deviceSensorsDTO) {
+        roomDTO.setDeviceSensorDTOList(deviceSensorsDTO);
         return this;
     }
 
-    public RoomDTOBuilder addDExecutorDTO(List<DeviceExecutorDTO> deviceExecutorsDTO){
-        roomDTO.setDevicesExecutorDTO(deviceExecutorsDTO);
+    public RoomDTOBuilder addDExecutorDTO(List<DeviceExecutorDTO> deviceExecutorsDTO) {
+        roomDTO.setDeviceExecutorDTOlist(deviceExecutorsDTO);
         return this;
     }
-    public RoomDTO build(){
+
+    public RoomDTO build() {
         return roomDTO;
     }
 }

@@ -2,16 +2,15 @@ package ru.geekbrains.SmartHomeController.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.geekbrains.SmartHomeController.entities.DeviceSensor;
 
-import java.util.Collection;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 public class RoomDTO {
-
+    private Long id;
     private String name;
-    private Collection<DeviceExecutorDTO> devicesExecutorDTO;
-    private Collection<DeviceSensorDTO> deviceSensorsDTO;
-
-
+    private List<DeviceSensorDTO> deviceSensorDTOList;
+    private List<DeviceExecutorDTO> deviceExecutorDTOlist;
 }

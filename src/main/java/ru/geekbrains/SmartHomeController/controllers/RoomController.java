@@ -15,24 +15,11 @@ import java.util.List;
 public class RoomController {
     @Autowired
     private RoomService roomService;
+
     @GetMapping()
-    public List<Room> getRooms(){
+    public List<Room> getRooms() {
         try {
             List<Room> rooms = roomService.getRoomAll();
-//            for (Room room : rooms) {
-//                System.out.println("room id: " + room.getId());
-//                System.out.println("room name: " + room.getName());
-//                room.getDeviceSensors().stream().forEach((ds) -> {
-//                    System.out.println("name: " + ds.getName());
-//                    System.out.println("type: " + ds.getType());
-//                    System.out.println("value: " + ds.getValue());
-//                });
-//                room.getDeviceExecutors().forEach((de) -> {
-//                    System.out.println("executor name: " + de.getName());
-//                    System.out.println("type: " + de.getType());
-//                    System.out.println("value: " + de.getValue());
-//                });
-//            }
             return rooms;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -42,7 +29,7 @@ public class RoomController {
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public Long createRoom(@RequestBody Room room)  {
+    public Long createRoom(@RequestBody Room room) {
         try {
             return roomService.addRoom(room);
         } catch (SQLException e) {
@@ -50,24 +37,24 @@ public class RoomController {
         }
         return -1L;
     }
+
     @PutMapping()
-    public void updateRoom(Room room){
+    public void updateRoom(Room room) {
         try {
             roomService.updateRoom(room);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
     @DeleteMapping("/{id}")
-    public void deleteRoomByID(@PathVariable Long id){
+    public void deleteRoomByID(@PathVariable Long id) {
         try {
             roomService.deleteRoom(id);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-
-
 
 
 }

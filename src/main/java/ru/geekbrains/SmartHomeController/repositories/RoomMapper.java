@@ -1,7 +1,6 @@
 package ru.geekbrains.SmartHomeController.repositories;
 
 import org.springframework.stereotype.Repository;
-import ru.geekbrains.SmartHomeController.entities.DeviceExecutor;
 import ru.geekbrains.SmartHomeController.entities.DeviceSensor;
 import ru.geekbrains.SmartHomeController.entities.Room;
 import ru.geekbrains.SmartHomeController.services.DataSource;

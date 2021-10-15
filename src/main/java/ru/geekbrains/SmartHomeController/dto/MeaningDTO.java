@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class MeaningDTO {
-    Long id;
-    String type;
-    double meaning;
+    private Long id;
+    private String type;
+    private double meaning;
 }

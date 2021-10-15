@@ -62,7 +62,7 @@ public class DeviceExecutorMapper {
         return executors;
     }
 
-    public void insert(DeviceExecutor de) throws SQLException, IllegalArgumentException {
+    public Long insert(DeviceExecutor de) throws SQLException, IllegalArgumentException {
         PreparedStatement statement = con.prepareStatement(
                 "INSERT INTO devices_executor (id, name, type, status, minValue, maxValue, room_id) VALUES (?, ?, ?, ?, ?, ?, ?)"
         );
@@ -74,8 +74,7 @@ public class DeviceExecutorMapper {
         statement.setDouble(6, de.getMaxValue());
         statement.setLong(7, de.getRoom_id());
         statement.executeUpdate();
-
-
+        return de.getId();
     }
 
     public void update(DeviceExecutor de) throws SQLException {
@@ -113,5 +112,15 @@ public class DeviceExecutorMapper {
             }
         }
         throw new IllegalArgumentException(String.valueOf(de.getName() + " in room " + de.getRoom_id()));
+    }
+
+    public boolean isExistsExecutor(Long id) throws SQLException {
+        PreparedStatement statement = con.prepareStatement(
+                "SELECT id FROM devices_executor WHERE id=?"
+        );
+        statement.setLong(1, id);
+        try (ResultSet rs = statement.executeQuery()) {
+            return rs.next();
+        }
     }
 }
